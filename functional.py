@@ -24,9 +24,13 @@ def flip(f):
     return lambda x, y: f(y, x)
 
 
-def foldr(f, xs, acc):
+def foldr(f, xs, acc=None):
     'Like reduce, but processes list elements from index -1 to index 0'
-    return reduce(f, reversed(xs), acc)
+    if acc == None:
+        lst = list(reversed(xs))
+        return reduce(f, lst[1:], lst[0])
+    else:
+        return reduce(f, reversed(xs), acc)
 
 
 def appended(lst, x):

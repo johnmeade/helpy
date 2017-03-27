@@ -7,7 +7,7 @@ import os
 from os import makedirs, getcwd
 from os.path import join, exists
 from datetime import datetime as dt
-from curried import curry
+from helpy.curried import curry
 
 
 DATE_FORMAT = '%Y-%m-%d'

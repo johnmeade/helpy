@@ -2,7 +2,7 @@
 
 
 import sys
-import functional as fnc
+import helpy.functional as fnc
 from functools import reduce as py_reduce
 
 
