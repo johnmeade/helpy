@@ -1,8 +1,9 @@
 import unittest
-import misc
-import functional as fnc
-import curried
-from curried import curry
+import helpy.misc as misc
+import helpy.functional as fnc
+import helpy.curried as curried
+import helpy.logging as logging
+from helpy.curried import curry
 
 
 class TestCurried(unittest.TestCase):
@@ -26,13 +27,13 @@ class TestCurried(unittest.TestCase):
 
     def test_map(self):
         cmap = curried.map(lambda x: x*x)
-        self.assertEqual( cmap([1,2,3]), [1,4,9] )
-        self.assertEqual( cmap([2,3,4]), [4,9,16] )
+        self.assertEqual( list(cmap([1,2,3])), [1,4,9] )
+        self.assertEqual( list(cmap([2,3,4])), [4,9,16] )
 
     def test_filter(self):
         cfilter = curried.filter(lambda x: x%2==0)
-        self.assertEqual( cfilter([1,2,3,4]), [2,4] )
-        self.assertEqual( cfilter(range(10)), [0,2,4,6,8] )
+        self.assertEqual( list(cfilter([1,2,3,4])), [2,4] )
+        self.assertEqual( list(cfilter(range(10))), [0,2,4,6,8] )
 
     def test_reduce(self):
         creduce = curried.reduce(lambda acc, y: acc+y)
@@ -114,6 +115,20 @@ class TestMisc(unittest.TestCase):
             misc.assertion(value_of=3, is_one_of=[1,5,9])
         with self.assertRaises(Exception):
             misc.assertion(type_of=3, is_one_of=[str])
+
+
+class TestLogging(unittest.TestCase):
+
+    def test_fmt(self):
+        log = logging.Log(indent_str='#', prefix='[', suffix=']', join=' ')
+        self.assertEqual( log.fmt('hi {foo}', 2, foo='bar'), "[ hi bar ]")
+        log.indent()
+        self.assertEqual( log.fmt('bye {foo}', foo='bar', a=3), "[ # bye bar ]")
+        log.dedent()
+        log.dedent()
+        log.dedent()
+        log.dedent()
+        self.assertEqual( log.fmt('blah {1} {0}', 4, 5, a=3), "[ blah 5 4 ]")
 
 
 if __name__ == '__main__':

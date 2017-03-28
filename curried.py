@@ -84,12 +84,12 @@ def pipe(*fns):
 #
 
 
-def eq(val):
-    return lambda x: x == val
-
-
-def not_eq(val):
-    return lambda x: x != val
+def eq(val): return lambda x: x == val
+def not_eq(val): return lambda x: x != val
+def lt(val): return lambda x: x < val
+def lte(val): return lambda x: x <= val
+def gt(val): return lambda x: x > val
+def gte(val): return lambda x: x > val
 
 
 def startswith(s):

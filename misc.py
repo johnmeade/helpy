@@ -1,5 +1,6 @@
 '''
-Utilities for common tasks in making Python scripts
+Utilities for common tasks in making Python scripts. This is a base file that
+should not import from anything else in this package.
 '''
 
 
@@ -7,12 +8,30 @@ import os
 from os import makedirs, getcwd
 from os.path import join, exists
 from datetime import datetime as dt
-from helpy.curried import curry
 
 
 DATE_FORMAT = '%Y-%m-%d'
 TIME_FORMAT = '%Hh%Mm%Ss'
 DATETIME_FORMAT = '_'.join([ DATE_FORMAT, TIME_FORMAT ])
+
+
+def flatten(*x):
+    '''Append all passed args to the input list. Args can be any
+    Example:
+    flatten( [1,2], 3 )
+    >>> [1, 2, 3]
+    flatten( [1,2], [(3,[2,6,(9,8,7)]),[4,5]], 4 )
+    >>> [1, 2, 3, 2, 6, 9, 8, 7, 4, 5, 4]
+    '''
+    lst = []
+    for y in x:
+        t = type(y)
+        if t == list or t == tuple:
+            for z in flatten(*y):
+                lst.append(z)
+        else:
+            lst.append(y)
+    return lst
 
 
 def do(generator):
@@ -25,7 +44,7 @@ def do(generator):
 
 def ensure_folders(folders, root=getcwd()):
     "Make all supplied directories if they don't already exist"
-    prefixed = curry(join)(root)
+    prefixed = lambda x: join(root, x)
     do( makedirs(d) for d in map(prefixed, folders) if not exists(d) )
 
 

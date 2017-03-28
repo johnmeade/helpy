@@ -1,6 +1,7 @@
 'functional helpers to clean up functional code'
 
 
+from helpy.misc import do, flatten
 from functools import reduce
 
 
@@ -33,8 +34,15 @@ def foldr(f, xs, acc=None):
         return reduce(f, reversed(xs), acc)
 
 
-def appended(lst, x):
-    lst.append(x)
+def appended(lst, *x):
+    '''Append all passed args to the input list. Args can be any
+    Example:
+    appended( [1,2], 3 )
+    >>> [1, 2, 3]
+    appended( [1,2], [(3,[2,6,(9,8,7)]),[4,5]], 4 )
+    >>> [1, 2, 3, 2, 6, 9, 8, 7, 4, 5, 4]
+    '''
+    do( lst.append(y) for y in flatten(x) )
     return lst
 
 
